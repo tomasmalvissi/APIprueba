@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace ApiPrueba.WEBAPI.Data.Entities
 {
-    public class Pais
+    public class Provincia
     {
         public int Id { get; set; }
         [Required]
-        public string CodPais { get; set; }
+        public string CodProv { get; set; }
         [Required]
-        public string NomPais { get; set; }
+        public string NomProv { get; set; }
+        public Pais Pais { get; set; }
     }
 }

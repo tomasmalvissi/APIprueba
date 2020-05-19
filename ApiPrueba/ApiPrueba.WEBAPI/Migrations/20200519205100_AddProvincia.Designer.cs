@@ -4,14 +4,16 @@ using ApiPrueba.WEBAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ApiPrueba.WEBAPI.Migrations
 {
     [DbContext(typeof(ApiContetx))]
-    partial class ApiContetxModelSnapshot : ModelSnapshot
+    [Migration("20200519205100_AddProvincia")]
+    partial class AddProvincia
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
