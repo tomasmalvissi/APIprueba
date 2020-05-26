@@ -13,21 +13,21 @@ namespace ApiPrueba.WEBAPI.Controllers
     [ApiController]
     public class PaisesController : ControllerBase
     {
-        private readonly ApiContetx contetx;
+        private readonly ApiContetx context;
 
-        public PaisesController(ApiContetx contetx)
+        public PaisesController(ApiContetx context)
         {
-            this.contetx = contetx;
+            this.context = context;
         }
         [HttpGet]
         public ActionResult<IEnumerable<Pais>> Get()
         {
-            return contetx.Pais.ToList();
+            return context.Pais.Include(p => p.Provincias).ToList();
         }
         [HttpGet("{id}", Name = "ObtenerPaisPorId")]
         public ActionResult<Pais> Get(int id) 
         {
-            var pais = contetx.Pais.FirstOrDefault(p=> p.Id == id);
+            var pais = context.Pais.Include(p=> p.Provincias).FirstOrDefault(p=> p.Id == id);
             if (pais == null)
             {
                 return NotFound();
@@ -37,9 +37,8 @@ namespace ApiPrueba.WEBAPI.Controllers
         [HttpPost]
         public ActionResult<Pais> Post([FromBody] Pais pais)
         {
-            contetx.Pais.Add(pais);
-            contetx.SaveChanges();
-            //return pais;
+            context.Pais.Add(pais);
+            context.SaveChanges();
             return new CreatedAtRouteResult("ObtenerPaisPorId", new {id=pais.Id }, pais);
         }
         [HttpPut("{id}")]
@@ -49,20 +48,20 @@ namespace ApiPrueba.WEBAPI.Controllers
             {
                 return BadRequest();
             }
-            contetx.Entry(pais).State = EntityState.Modified;
-            contetx.SaveChanges();
+            context.Entry(pais).State = EntityState.Modified;
+            context.SaveChanges();
             return Ok();
         }
         [HttpDelete("{id}")]
         public ActionResult<Pais> Delete(int id) 
         {
-            var pais = contetx.Pais.FirstOrDefault(p => p.Id == id);
+            var pais = context.Pais.FirstOrDefault(p => p.Id == id);
             if (pais == null)
             {
                 return NotFound();
             }
-            contetx.Pais.Remove(pais);
-            contetx.SaveChanges();
+            context.Pais.Remove(pais);
+            context.SaveChanges();
             return Ok();
         }
     }
